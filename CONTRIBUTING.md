@@ -4,7 +4,7 @@
 ### 📄 `CONTRIBUTING.md` Content
 
 ```markdown
-# 🤝 Contributing to TrendAnalyst AI
+# 🤝 Contributing to Hanfani AI
 
 First off, thank you for considering contributing to this open-source project! We are following a strict **"One Feature a Day"** delivery model to maintain high momentum and code quality.
 

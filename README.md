@@ -1,8 +1,8 @@
-# 📈 TrendAnalyst AI
+# 📈 Hanfani AI
 
 > **Bridging Google Trends and Social Intelligence with Autonomous AI Agents.**
 
-TrendAnalyst AI is a high-performance, open-source intelligence platform designed to not only track what is trending but to explain **why** it matters. By combining real-time data from Google Trends with social media context, it empowers users to turn raw data into actionable goals via a dedicated AI agent.
+Hanfani AI is a high-performance, open-source intelligence platform designed to not only track what is trending but to explain **why** it matters. By combining real-time data from Google Trends with social media context, it empowers users to turn raw data into actionable goals via a dedicated AI agent.
 
 ## 🚀 The Ambition
 Our goal is to build a transparent, community-driven tool that provides:
