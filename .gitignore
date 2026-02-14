@@ -1,0 +1,17 @@
+# Logs
+node_modules
+.pnpm-debug.log
+.next
+out
+build
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# OS
+.DS_Store
+dist/
