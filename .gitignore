@@ -1,6 +1,7 @@
 # Logs
 node_modules
 .pnpm-debug.log
+.pnpm-store/
 .next
 out
 build
@@ -10,6 +11,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 venv/
+.venv/
+.venv-*/
 .env
 
 # OS

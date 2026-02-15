@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "pnpm run test:api && pnpm run test:web",
+    "test:api": "cd apps/api && pytest",
+    "test:web": "pnpm --filter web test:run",
+    "test:web:e2e": "pnpm --filter web test:e2e"
   },
   "keywords": [],
   "author": "",
