@@ -21,6 +21,9 @@ function getAppVersion(): string {
 }
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: join(__dirname, "..", ".."),
+  },
   reactCompiler: true,
   env: {
     NEXT_PUBLIC_APP_VERSION: getAppVersion(),

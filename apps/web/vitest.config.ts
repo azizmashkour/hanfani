@@ -10,6 +10,11 @@ export default defineConfig({
     exclude: ["**/node_modules/**", "**/.next/**", "**/e2e/**"],
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "lcov", "html"],
+      exclude: ["node_modules/", ".next/", "e2e/", "**/*.config.*", "**/vitest.setup.ts"],
+    },
   },
   resolve: {
     alias: {
