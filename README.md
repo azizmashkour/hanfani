@@ -1,6 +1,7 @@
 # 📈 Hanfani AI
 
 [![CI](https://github.com/azizmashkour/hanfani/actions/workflows/ci.yml/badge.svg)](https://github.com/azizmashkour/hanfani/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/azizmashkour/hanfani/graph/badge.svg)](https://codecov.io/gh/azizmashkour/hanfani)
 
 > **Bridging Google Trends and Social Intelligence with Autonomous AI Agents.**
 

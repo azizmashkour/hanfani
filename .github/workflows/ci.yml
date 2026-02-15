@@ -32,8 +32,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Run tests with coverage
         run: pytest
+
+      - name: Upload backend coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: apps/api/coverage.xml
+          flags: backend
+          fail_ci_if_error: false
 
   frontend:
     name: Frontend Tests
@@ -59,8 +67,16 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
         working-directory: apps/web
 
-      - name: Run unit tests
-        run: pnpm --filter web test:run
+      - name: Run unit tests with coverage
+        run: pnpm --filter web test:coverage
+
+      - name: Upload frontend coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: apps/web/coverage/lcov.info
+          flags: frontend
+          fail_ci_if_error: false
 
       - name: Run E2E tests
         run: pnpm --filter web test:e2e
