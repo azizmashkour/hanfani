@@ -38,9 +38,6 @@ jobs:
   frontend:
     name: Frontend Tests
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: apps/web
 
     steps:
       - name: Checkout
@@ -60,9 +57,10 @@ jobs:
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
+        working-directory: apps/web
 
       - name: Run unit tests
-        run: pnpm test:run
+        run: pnpm --filter web test:run
 
       - name: Run E2E tests
-        run: pnpm test:e2e
+        run: pnpm --filter web test:e2e

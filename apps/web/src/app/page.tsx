@@ -1,17 +1,9 @@
 import Image from "next/image";
-import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-100 font-sans dark:bg-zinc-950">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-zinc-50 dark:bg-zinc-950 sm:items-start">
-        <div className="flex w-full items-center justify-between">
-          <span className="inline-flex items-baseline font-semibold tracking-tight text-black dark:text-zinc-50">
-            <span className="text-2xl">Hanfani</span>
-            <span className="ml-0.5 text-sm">.AI</span>
-          </span>
-          <ThemeToggle />
-        </div>
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between px-16 pb-32 pt-8 bg-zinc-50 dark:bg-zinc-950 sm:items-start">
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
             To get started, edit the page.tsx file.
