@@ -16,6 +16,6 @@ class TrendsDocument(BaseModel):
         default_factory=list,
         description="List of trend items: {title, search_volume?, started?}",
     )
-    source: Literal["api", "fallback"] = Field(default="fallback")
+    source: Literal["api", "fallback", "scraper", "serpapi", "db"] = Field(default="fallback")
     fetched_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)

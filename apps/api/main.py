@@ -7,7 +7,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from services.topic_mentions import fetch_topic_mentions
-from services.trends import get_trending_topics
 from services.trends_store import get_trends_from_db
 
 app = FastAPI(title="Hanfani AI API", version="0.1.0")
@@ -45,15 +44,18 @@ def trends(country: str = "US") -> dict:
     """
     Get top trending topics for a specific country.
 
-    Reads from MongoDB (populated by worker). Falls back to live fetch if no data.
+    Reads from MongoDB only (populated by worker). Never runs scraper in request path
+    to avoid timeouts. If DB is empty or unreachable, returns empty list immediately.
 
     Args:
         country: ISO 3166-1 alpha-2 country code (e.g. US, GB, FR). Defaults to US.
 
     Returns:
-        JSON with country, topics, source (api/fallback/db), and fetched_at.
+        JSON with country, topics, source (db or fallback), and fetched_at.
     """
-    code = country.strip().upper() if country else "US"
+    if not country or not country.strip():
+        raise HTTPException(status_code=400, detail="Country code is required")
+    code = country.strip().upper()
     if len(code) != 2 or not code.isalpha():
         raise HTTPException(status_code=400, detail=f"Invalid country code: {country}. Use ISO 3166-1 alpha-2 (e.g. US, GB).")
 
@@ -67,18 +69,14 @@ def trends(country: str = "US") -> dict:
                 "fetched_at": doc.fetched_at.isoformat(),
             }
     except Exception:
-        pass  # Fall through to live fetch
+        pass  # DB unreachable - return empty immediately (no slow scraper)
 
-    # No data in DB - fetch live (or fallback to mock)
-    try:
-        topics, source = get_trending_topics(country)
-        return {
-            "country": code,
-            "topics": topics,
-            "source": source,
-        }
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e)) from e
+    # No data in DB - return empty immediately; worker populates DB in background
+    return {
+        "country": code,
+        "topics": [],
+        "source": "fallback",
+    }
 
 
 @app.get("/trends/mentions")
