@@ -3,8 +3,12 @@
 import os
 from datetime import datetime, timezone
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
+from services.topic_mentions import fetch_topic_mentions
+from services.trends import get_trending_topics
+from services.trends_store import get_trends_from_db
 
 app = FastAPI(title="Hanfani AI API", version="0.1.0")
 
@@ -33,4 +37,75 @@ def status() -> dict:
         "service": "hanfani-api",
         "version": "0.1.0",
         "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+@app.get("/trends")
+def trends(country: str = "US") -> dict:
+    """
+    Get top trending topics for a specific country.
+
+    Reads from MongoDB (populated by worker). Falls back to live fetch if no data.
+
+    Args:
+        country: ISO 3166-1 alpha-2 country code (e.g. US, GB, FR). Defaults to US.
+
+    Returns:
+        JSON with country, topics, source (api/fallback/db), and fetched_at.
+    """
+    code = country.strip().upper() if country else "US"
+    if len(code) != 2 or not code.isalpha():
+        raise HTTPException(status_code=400, detail=f"Invalid country code: {country}. Use ISO 3166-1 alpha-2 (e.g. US, GB).")
+
+    try:
+        doc = get_trends_from_db(code)
+        if doc and doc.topics:
+            return {
+                "country": doc.country,
+                "topics": doc.topics,
+                "source": "db",
+                "fetched_at": doc.fetched_at.isoformat(),
+            }
+    except Exception:
+        pass  # Fall through to live fetch
+
+    # No data in DB - fetch live (or fallback to mock)
+    try:
+        topics, source = get_trending_topics(country)
+        return {
+            "country": code,
+            "topics": topics,
+            "source": source,
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@app.get("/trends/mentions")
+def trend_mentions(topic: str, country: str = "US") -> dict:
+    """
+    Get news articles and platform mentions for a trending topic.
+
+    Requires SERPAPI_KEY for live data. Returns articles sorted by relevance
+    (position in Google News) and date.
+
+    Args:
+        topic: The trending topic to search for.
+        country: ISO 3166-1 alpha-2 country code (e.g. US, FR). Defaults to US.
+
+    Returns:
+        JSON with topic, country, mentions (list of articles/platforms).
+    """
+    if not topic or not topic.strip():
+        raise HTTPException(status_code=400, detail="Topic is required")
+
+    code = country.strip().upper() if country else "US"
+    if len(code) != 2 or not code.isalpha():
+        raise HTTPException(status_code=400, detail=f"Invalid country code: {country}")
+
+    mentions = fetch_topic_mentions(topic.strip(), code, limit=25)
+    return {
+        "topic": topic.strip(),
+        "country": code,
+        "mentions": mentions,
     }
