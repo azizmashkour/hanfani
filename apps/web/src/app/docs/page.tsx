@@ -7,24 +7,24 @@ export const metadata: Metadata = {
 
 export default function DocsPage() {
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans dark:bg-zinc-950">
-      <main className="mx-auto max-w-3xl px-6 py-16">
-        <h1 className="mb-4 text-3xl font-semibold text-zinc-900 dark:text-zinc-50">
+    <div className="min-h-screen bg-stone-50 font-sans dark:bg-stone-950">
+      <main className="mx-auto max-w-3xl px-8 py-16">
+        <h1 className="mb-3 text-[28px] font-semibold tracking-tight text-stone-900 dark:text-stone-50">
           Documentation
         </h1>
-        <p className="mb-8 text-lg text-zinc-600 dark:text-zinc-400">
+        <p className="mb-10 text-[15px] leading-relaxed text-stone-600 dark:text-stone-400">
           Welcome to the Hanfani AI documentation. Feature docs and guides will be
           added here.
         </p>
-        <div className="space-y-4">
+        <div className="space-y-3">
           <a
             href="/status"
-            className="block rounded-lg border border-zinc-200 bg-white px-6 py-4 transition-colors hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
+            className="block rounded-2xl bg-white px-6 py-5 shadow-sm transition hover:shadow-md dark:bg-stone-900 dark:shadow-stone-950/50 dark:hover:shadow-stone-900/50"
           >
-            <h2 className="font-medium text-zinc-900 dark:text-zinc-50">
+            <h2 className="font-medium text-stone-900 dark:text-stone-50">
               Status Page
             </h2>
-            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1.5 text-[14px] text-stone-500 dark:text-stone-400">
               Check app and API availability
             </p>
           </a>
@@ -32,12 +32,12 @@ export default function DocsPage() {
             href={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001"}/docs`}
             target="_blank"
             rel="noopener noreferrer"
-            className="block rounded-lg border border-zinc-200 bg-white px-6 py-4 transition-colors hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
+            className="block rounded-2xl bg-white px-6 py-5 shadow-sm transition hover:shadow-md dark:bg-stone-900 dark:shadow-stone-950/50 dark:hover:shadow-stone-900/50"
           >
-            <h2 className="font-medium text-zinc-900 dark:text-zinc-50">
+            <h2 className="font-medium text-stone-900 dark:text-stone-50">
               API Documentation (Swagger)
             </h2>
-            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1.5 text-[14px] text-stone-500 dark:text-stone-400">
               Interactive API docs
             </p>
           </a>
