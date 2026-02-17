@@ -67,7 +67,29 @@ def test_trends_normalizes_country_code(client: TestClient) -> None:
 
     assert response.status_code == 200
     assert response.json()["country"] == "GB"
-    mock_get.assert_called_once_with("GB")
+    mock_get.assert_called_once_with("GB", filter_param="last_7_days")
+
+
+def test_trends_filter_param_passed_to_db(client: TestClient) -> None:
+    """GET /trends passes filter_param to get_trends_from_db."""
+    doc = TrendsDocument(
+        country="US",
+        topics=[{"title": "Topic"}],
+        source="db",
+        fetched_at=datetime.now(timezone.utc),
+        updated_at=datetime.now(timezone.utc),
+    )
+    with patch("main.get_trends_from_db", return_value=doc) as mock_get:
+        client.get("/trends?country=US&filter_param=yesterday")
+
+    mock_get.assert_called_once_with("US", filter_param="yesterday")
+
+
+def test_trends_invalid_filter_returns_400(client: TestClient) -> None:
+    """GET /trends with invalid filter returns 400."""
+    response = client.get("/trends?country=US&filter_param=last_30_days")
+    assert response.status_code == 400
+    assert "yesterday" in response.json()["detail"]
 
 
 def test_trends_invalid_country_returns_400(client: TestClient) -> None:

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { checkApiStatus } from "@/actions/status";
 
 type ServiceStatus = "operational" | "degraded" | "outage" | "checking";
 
@@ -11,9 +12,6 @@ interface ServiceCheck {
   lastChecked?: string;
 }
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001";
-
 export default function StatusPage() {
   const [services, setServices] = useState<ServiceCheck[]>([]);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -23,7 +21,6 @@ export default function StatusPage() {
     setIsLoading(true);
     const checks: ServiceCheck[] = [];
 
-    // Web app is operational if this page loaded
     checks.push({
       name: "Web App",
       status: "operational",
@@ -31,26 +28,13 @@ export default function StatusPage() {
       lastChecked: new Date().toISOString(),
     });
 
-    // Check API
-    try {
-      const res = await fetch(`${API_URL}/status`, {
-        signal: AbortSignal.timeout(5000),
-      });
-      const data = await res.json();
-      checks.push({
-        name: "API",
-        status: res.ok && data?.status === "operational" ? "operational" : "degraded",
-        message: data?.status || `HTTP ${res.status}`,
-        lastChecked: new Date().toISOString(),
-      });
-    } catch (err) {
-      checks.push({
-        name: "API",
-        status: "outage",
-        message: err instanceof Error ? err.message : "Unreachable",
-        lastChecked: new Date().toISOString(),
-      });
-    }
+    const apiResult = await checkApiStatus();
+    checks.push({
+      name: "API",
+      status: apiResult.status,
+      message: apiResult.message,
+      lastChecked: new Date().toISOString(),
+    });
 
     setServices(checks);
     setLastUpdated(new Date());
@@ -103,7 +87,12 @@ export default function StatusPage() {
   return (
     <div className="min-h-screen bg-stone-50 font-sans dark:bg-stone-950">
       <main className="mx-auto max-w-2xl px-8 py-16">
-        <h1 className="mb-2 text-[28px] font-semibold tracking-tight text-stone-900 dark:text-stone-50">
+        <h1
+          className={
+            "mb-2 text-[28px] font-semibold tracking-tight " +
+            "text-stone-900 dark:text-stone-50"
+          }
+        >
           Hanfani AI Status
         </h1>
         <p className="mb-10 text-[15px] text-stone-600 dark:text-stone-400">
@@ -111,7 +100,12 @@ export default function StatusPage() {
         </p>
 
         {/* Overall status */}
-        <div className="mb-12 rounded-2xl bg-white p-6 shadow-sm dark:bg-stone-900 dark:shadow-stone-950/50">
+        <div
+          className={
+            "mb-12 rounded-2xl bg-white p-6 shadow-sm " +
+            "dark:bg-stone-900 dark:shadow-stone-950/50"
+          }
+        >
           <div className="flex items-center gap-3">
             <span
               className={`h-3 w-3 rounded-full ${config.dotColor}`}
@@ -135,7 +129,10 @@ export default function StatusPage() {
             return (
               <div
                 key={service.name}
-                className="flex items-center justify-between rounded-2xl bg-white px-6 py-4 shadow-sm dark:bg-stone-900 dark:shadow-stone-950/50"
+                className={
+                  "flex items-center justify-between rounded-2xl bg-white " +
+                  "px-6 py-4 shadow-sm dark:bg-stone-900 dark:shadow-stone-950/50"
+                }
               >
                 <div>
                   <p className="font-medium text-stone-900 dark:text-stone-50">
@@ -164,7 +161,12 @@ export default function StatusPage() {
         <button
           onClick={checkServices}
           disabled={isLoading}
-          className="mt-10 cursor-pointer rounded-xl bg-stone-900 px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-stone-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+          className={
+            "mt-10 cursor-pointer rounded-xl bg-stone-900 px-5 py-2.5 " +
+            "text-[14px] font-medium text-white transition-colors " +
+            "hover:bg-stone-800 disabled:cursor-not-allowed disabled:opacity-50 " +
+            "dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+          }
         >
           {isLoading ? "Checking..." : "Refresh"}
         </button>
