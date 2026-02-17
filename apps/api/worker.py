@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from services.trends import get_trending_topics
-from services.trends_store import save_trends, TOPICS_LIMIT
+from services.trends_store import TOPICS_LIMIT, save_trends
 
 # Countries to scrape (configurable via env: TRENDS_COUNTRIES=US,GB,FR,...)
 DEFAULT_COUNTRIES = ["US", "GB", "FR", "DE", "IN", "JP", "BR", "CA", "AU", "ES", "CR"]
@@ -28,7 +28,11 @@ DEFAULT_COUNTRIES = ["US", "GB", "FR", "DE", "IN", "JP", "BR", "CA", "AU", "ES",
 def run() -> None:
     """Scrape trends for all configured countries and save to MongoDB."""
     countries_str = os.getenv("TRENDS_COUNTRIES", "")
-    countries = [c.strip().upper() for c in countries_str.split(",") if c.strip()] if countries_str else DEFAULT_COUNTRIES
+    countries = (
+        [c.strip().upper() for c in countries_str.split(",") if c.strip()]
+        if countries_str
+        else DEFAULT_COUNTRIES
+    )
 
     for country in countries:
         try:

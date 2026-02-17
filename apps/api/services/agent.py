@@ -14,7 +14,8 @@ from typing import Any
 from services.topic_mentions import fetch_topic_mentions
 from services.trends_store import get_trends_from_db
 
-SYSTEM_PROMPT = """You are the Hanfani AI agent. Your role is to help users discover what's trending, explore coverage across news and platforms, and stay ahead with actionable insights.
+SYSTEM_PROMPT = """You are the Hanfani AI agent. Help users discover what's trending,
+explore coverage across news and platforms, and stay ahead with actionable insights.
 
 You have access to:
 1. **Trending topics** – Real-time Google Trends data by country
@@ -23,7 +24,7 @@ You have access to:
 Guidelines:
 - Be concise and actionable. Summarize trends, explain why they matter, and suggest next steps.
 - When users ask about a topic, use the mentions data to provide context from news and platforms.
-- If no data is available, say so clearly and suggest they check the Trends page or try a different country/topic.
+- If no data is available, say so clearly and suggest the Trends page or a different country/topic.
 - Stay professional and helpful. Avoid speculation; base answers on the data provided.
 """
 
@@ -114,7 +115,6 @@ def _build_context(country: str, topic: str | None) -> str:
             for m in mentions[:8]:
                 title = m.get("title", "")
                 source = m.get("source", "")
-                link = m.get("link", "")
                 snippet = (m.get("snippet", "") or "")[:150]
                 items.append(f"- {title} ({source}): {snippet}...")
             parts.append(f"\n**News/coverage for '{topic.strip()}':**\n" + "\n".join(items))

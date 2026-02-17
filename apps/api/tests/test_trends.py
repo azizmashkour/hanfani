@@ -165,7 +165,9 @@ def test_get_trending_topics_returns_list() -> None:
         def trending_searches(self, pn: str) -> pd.DataFrame:
             return mock_df
 
-        def realtime_trending_searches(self, pn: str, cat: str = "all", count: int = 300) -> pd.DataFrame:
+        def realtime_trending_searches(
+            self, pn: str, cat: str = "all", count: int = 300
+        ) -> pd.DataFrame:
             return pd.DataFrame()
 
     with patch.dict(
@@ -186,7 +188,9 @@ def test_get_trending_topics_fallback_when_api_fails() -> None:
         def trending_searches(self, pn: str) -> pd.DataFrame:
             raise Exception("404")
 
-        def realtime_trending_searches(self, pn: str, cat: str = "all", count: int = 300) -> pd.DataFrame:
+        def realtime_trending_searches(
+            self, pn: str, cat: str = "all", count: int = 300
+        ) -> pd.DataFrame:
             raise Exception("404")
 
     with patch.dict(
