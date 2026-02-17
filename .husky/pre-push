@@ -1,1 +1,1 @@
-pnpm run lint:web && pnpm run lint:api
+pnpm run lint:web && pnpm run lint:api && pnpm run test:coverage
