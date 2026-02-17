@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
           ignoreUrls: true,
         },
       ],
+      "react-hooks/set-state-in-effect": "off",
     },
   },
   // Override default ignores of eslint-config-next.
