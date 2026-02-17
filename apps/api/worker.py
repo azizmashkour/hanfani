@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from services.trends import get_trending_topics
-from services.trends_store import save_trends
+from services.trends_store import TOPICS_LIMIT, save_trends
 
 # Countries to scrape (configurable via env: TRENDS_COUNTRIES=US,GB,FR,...)
 DEFAULT_COUNTRIES = ["US", "GB", "FR", "DE", "IN", "JP", "BR", "CA", "AU", "ES", "CR"]
@@ -28,12 +28,18 @@ DEFAULT_COUNTRIES = ["US", "GB", "FR", "DE", "IN", "JP", "BR", "CA", "AU", "ES",
 def run() -> None:
     """Scrape trends for all configured countries and save to MongoDB."""
     countries_str = os.getenv("TRENDS_COUNTRIES", "")
-    countries = [c.strip().upper() for c in countries_str.split(",") if c.strip()] if countries_str else DEFAULT_COUNTRIES
+    countries = (
+        [c.strip().upper() for c in countries_str.split(",") if c.strip()]
+        if countries_str
+        else DEFAULT_COUNTRIES
+    )
 
     for country in countries:
         try:
             print(f"Fetching trends from Google Trends for {country}...")
             topics, source = get_trending_topics(country)
+            # Always use top 25 most relevant; cumulate per day (no overwrite)
+            topics = (topics or [])[:TOPICS_LIMIT]
             save_trends(country, topics, source=source)
             print(f"Saved {len(topics)} topics for {country} (source={source})")
             for i, t in enumerate(topics[:5], 1):

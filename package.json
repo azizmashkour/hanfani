@@ -7,10 +7,19 @@
     "test": "pnpm run test:api && pnpm run test:web",
     "test:api": "cd apps/api && pytest",
     "test:web": "pnpm --filter web test:run",
-    "test:web:e2e": "pnpm --filter web test:e2e"
+    "test:coverage": "pnpm run test:api && pnpm --filter web test:coverage",
+    "test:web:e2e": "pnpm --filter web test:e2e",
+    "lint": "pnpm run lint:web && pnpm run lint:api",
+    "lint:fix": "pnpm --filter web lint:fix",
+    "prepare": "husky",
+    "lint:web": "pnpm --filter web lint",
+    "lint:api": "cd apps/api && ruff check ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.27.0"
+  "packageManager": "pnpm@10.27.0",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
 }

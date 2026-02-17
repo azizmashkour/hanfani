@@ -54,12 +54,16 @@ class TrendsClient(Protocol):
         """Fetch trending searches for a country (hottrends endpoint)."""
         ...
 
-    def realtime_trending_searches(self, pn: str, cat: str = "all", count: int = 300) -> pd.DataFrame:
+    def realtime_trending_searches(
+        self, pn: str, cat: str = "all", count: int = 300
+    ) -> pd.DataFrame:
         """Fetch realtime trending searches for a country."""
         ...
 
 
-def get_trending_topics(country: str, client: object | None = None) -> tuple[list[dict[str, Any]], str]:
+def get_trending_topics(
+    country: str, client: object | None = None
+) -> tuple[list[dict[str, Any]], str]:
     """
     Get the top trending topics for a specific country.
 
