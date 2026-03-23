@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "pnpm run test:api && pnpm run test:web",
-    "test:api": "cd apps/api && pytest",
+    "test:api": "cd apps/api && .venv/bin/python -m pytest",
     "test:web": "pnpm --filter web test:run",
     "test:coverage": "pnpm run test:api && pnpm --filter web test:coverage",
     "test:web:e2e": "pnpm --filter web test:e2e",
@@ -13,7 +13,7 @@
     "lint:fix": "pnpm --filter web lint:fix",
     "prepare": "husky",
     "lint:web": "pnpm --filter web lint",
-    "lint:api": "cd apps/api && ruff check ."
+    "lint:api": "cd apps/api && .venv/bin/ruff check ."
   },
   "keywords": [],
   "author": "",
