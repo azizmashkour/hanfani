@@ -5,7 +5,9 @@ from datetime import datetime, timezone
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
+from services.agent import chat as agent_chat
 from services.topic_mentions import fetch_topic_mentions
 from services.trends_store import get_trends_from_db
 
@@ -40,7 +42,10 @@ def status() -> dict:
 
 
 @app.get("/trends")
-def trends(country: str = "US") -> dict:
+def trends(
+    country: str = "US",
+    filter_param: str = "last_7_days",
+) -> dict:
     """
     Get top trending topics for a specific country.
 
@@ -49,6 +54,7 @@ def trends(country: str = "US") -> dict:
 
     Args:
         country: ISO 3166-1 alpha-2 country code (e.g. US, GB, FR). Defaults to US.
+        filter_param: "yesterday" (single day) or "last_7_days" (aggregate). Max 7 days.
 
     Returns:
         JSON with country, topics, source (db or fallback), and fetched_at.
@@ -57,10 +63,19 @@ def trends(country: str = "US") -> dict:
         raise HTTPException(status_code=400, detail="Country code is required")
     code = country.strip().upper()
     if len(code) != 2 or not code.isalpha():
-        raise HTTPException(status_code=400, detail=f"Invalid country code: {country}. Use ISO 3166-1 alpha-2 (e.g. US, GB).")
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid country code: {country}. Use ISO 3166-1 alpha-2.",
+        )
+
+    if filter_param not in ("yesterday", "last_7_days"):
+        raise HTTPException(
+            status_code=400,
+            detail="filter must be 'yesterday' or 'last_7_days'",
+        )
 
     try:
-        doc = get_trends_from_db(code)
+        doc = get_trends_from_db(code, filter_param=filter_param)
         if doc and doc.topics:
             return {
                 "country": doc.country,
@@ -107,3 +122,39 @@ def trend_mentions(topic: str, country: str = "US") -> dict:
         "country": code,
         "mentions": mentions,
     }
+
+
+class AgentChatRequest(BaseModel):
+    """Request body for agent chat."""
+
+    message: str = Field(..., min_length=1, max_length=4000)
+    country: str = Field(default="US", description="Country for trends context")
+    topic: str | None = Field(default=None, description="Optional topic for mentions context")
+
+
+@app.post("/agent/chat")
+def agent_chat_endpoint(body: AgentChatRequest) -> dict:
+    """
+    Chat with the AI agent about trends and coverage.
+
+    The agent has access to trending topics and news/mentions. Use it to:
+    - Understand what's trending and why
+    - Explore coverage for specific topics
+    - Get actionable insights
+
+    Args:
+        body: message (required), country (default US), topic (optional for mentions).
+
+    Returns:
+        JSON with reply from the agent.
+    """
+    code = (body.country or "US").strip().upper()
+    if len(code) != 2 or not code.isalpha():
+        raise HTTPException(status_code=400, detail=f"Invalid country code: {body.country}")
+
+    reply = agent_chat(
+        message=body.message.strip(),
+        country=code,
+        topic=body.topic.strip() if body.topic and body.topic.strip() else None,
+    )
+    return {"reply": reply}

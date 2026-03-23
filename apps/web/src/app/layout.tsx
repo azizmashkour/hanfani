@@ -17,7 +17,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Hanfani AI",
-  description: "Bridging Google Trends and Social Intelligence with Autonomous AI Agents",
+  description:
+    "Bridging Google Trends and Social Intelligence with " +
+    "Autonomous AI Agents",
 };
 
 export default function RootLayout({
@@ -47,10 +49,15 @@ export default function RootLayout({
         }}
       />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex h-screen flex-col overflow-hidden antialiased`}
+        className={
+          `${geistSans.variable} ${geistMono.variable} ` +
+          "flex h-screen flex-col overflow-hidden antialiased"
+        }
       >
         <Header />
-        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">{children}</div>
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

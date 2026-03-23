@@ -34,6 +34,24 @@ Set `SERPAPI_KEY=your_key` for API-based fetching. Takes precedence over scraper
 **Topic mentions (news/articles)**  
 `GET /trends/mentions?topic=...&country=...` fetches news articles and platform coverage for a trending topic. Requires `SERPAPI_KEY`.
 
+## AI Agent
+
+The AI agent powers insights and trends guidance. Supports multiple backends:
+
+| Backend | Env vars | Notes |
+|---------|----------|-------|
+| **Ollama** (default) | `OLLAMA_BASE_URL`, `OLLAMA_MODEL` | Local, free. Run `ollama run llama3` first |
+| **Groq** | `GROQ_API_KEY`, `GROQ_MODEL` | Free tier at [console.groq.com](https://console.groq.com/) |
+| **OpenAI** | `OPENAI_API_KEY`, `OPENAI_MODEL` | Paid |
+
+Set `AGENT_PROVIDER=ollama` (default), `groq`, or `openai`.
+
+**Ollama setup:**
+```bash
+# Install from https://ollama.com
+ollama run llama3
+```
+
 ## Trends worker
 
 Scrapes Google Trends for each country and saves to MongoDB.

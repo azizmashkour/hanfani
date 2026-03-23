@@ -48,7 +48,10 @@ def scrape_trending_topics(country: str) -> list[TrendItem]:
         browser = p.chromium.launch(headless=True)
         context = browser.new_context(
             accept_downloads=True,
-            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            user_agent=(
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            ),
         )
         page = context.new_page()
 
@@ -57,7 +60,9 @@ def scrape_trending_topics(country: str) -> list[TrendItem]:
             page.wait_for_timeout(4000)  # Allow dynamic content to render
 
             # Try CSV download first (Export -> Download CSV / Télécharger au format CSV)
-            export_btn = page.locator('button:has-text("Export"), button:has-text("Exporter")').first
+            export_btn = page.locator(
+                'button:has-text("Export"), button:has-text("Exporter")'
+            ).first
             if export_btn.is_visible(timeout=2000):
                 try:
                     with tempfile.TemporaryDirectory() as tmpdir:
@@ -67,7 +72,9 @@ def scrape_trending_topics(country: str) -> list[TrendItem]:
                             page.wait_for_timeout(1200)
                             csv_btn = page.get_by_role("menuitem").filter(has_text="CSV").first
                             if not csv_btn.is_visible(timeout=2000):
-                                csv_btn = page.locator('a:has-text("CSV"), [role="menuitem"]:has-text("CSV")').first
+                                csv_btn = page.locator(
+                                    'a:has-text("CSV"), [role="menuitem"]:has-text("CSV")'
+                                ).first
                             if csv_btn.is_visible(timeout=2000):
                                 csv_btn.click()
                         download = download_info.value
@@ -165,8 +172,16 @@ def _extract_from_dom(page) -> list[TrendItem]:
                 cells = row.locator("td").all()
                 if len(cells) >= 1:
                     title = cells[0].inner_text().strip().split("\n")[0].strip()
-                    volume = cells[1].inner_text().strip().split("\n")[0].strip() if len(cells) > 1 else ""
-                    started = cells[2].inner_text().strip().split("\n")[0].strip() if len(cells) > 2 else ""
+                    volume = (
+                        cells[1].inner_text().strip().split("\n")[0].strip()
+                        if len(cells) > 1
+                        else ""
+                    )
+                    started = (
+                        cells[2].inner_text().strip().split("\n")[0].strip()
+                        if len(cells) > 2
+                        else ""
+                    )
                     _add(title, volume, started)
             except Exception:
                 pass

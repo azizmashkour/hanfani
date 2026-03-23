@@ -8,6 +8,7 @@ build
 
 # Coverage
 coverage/
+.coverage
 *.lcov
 coverage.xml
 

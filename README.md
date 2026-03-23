@@ -18,6 +18,7 @@ Our goal is to build a transparent, community-driven tool that provides:
 - **Frontend:** [Next.js 15](https://nextjs.org/) (App Router, React Compiler) + [Tailwind CSS](https://tailwindcss.com/)
 - **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python 3.12+)
 - **Database:** [MongoDB](https://www.mongodb.com/)
+- **AI Agent:** [Ollama](https://ollama.com/) (default) – local open-source LLMs; optional: Groq, OpenAI
 - **State/Types:** TypeScript + Pydantic
 - **DevOps:** Docker + GitHub Actions
 - **Documentation:** Swagger (API) + Docusaurus (Features)
@@ -31,6 +32,24 @@ Default ports (configurable if 3000–3002 and 8000 are in use):
 
 Copy `apps/web/.env.example` to `apps/web/.env` and set `NEXT_PUBLIC_API_URL=http://localhost:8001` if needed.
 
+## 🤖 AI Agent
+
+The AI agent powers insights, trends summaries, and coverage exploration. It supports multiple backends:
+
+| Backend | Cost | Setup |
+|---------|------|-------|
+| **Ollama** (default) | Free | Local, no API key. [Install Ollama](https://ollama.com/) then run `ollama run llama3` |
+| **Groq** | Free tier | Set `GROQ_API_KEY`. Get key at [console.groq.com](https://console.groq.com/) |
+| **OpenAI** | Paid | Set `OPENAI_API_KEY` |
+
+**Ollama (recommended for local use):**
+```bash
+# Install from https://ollama.com, then:
+ollama run llama3
+```
+
+Set `AGENT_PROVIDER=ollama` (default), `groq`, or `openai` in `.env` if needed.
+
 ## 🌍 Globalization
 Built with inclusivity in mind:
 - **Languages:** English / French (Fully i18n)
@@ -42,6 +61,13 @@ A status page is available at `/status` to check app and API availability in rea
 
 ## 🤝 Contributing
 We release one feature every single day. Check our [Project Board](https://github.com/users/azizmashkour/projects/3) to see what's being built today. Please read our `CONTRIBUTING.md` for our coding standards.
+
+## 📜 Third-Party & AI Model Licenses
+
+This project uses the following third-party components:
+
+- **Ollama** – [MIT License](https://github.com/ollama/ollama/blob/main/LICENSE)
+- **LLM models** (e.g. Llama 3 via Ollama) – When using models such as Meta Llama 3, you must comply with their respective licenses (e.g. [Llama 3 Community License](https://github.com/meta-llama/llama3/blob/main/LICENSE)). See each model's documentation for terms.
 
 ---
 Licensed under MIT. Built for the community.

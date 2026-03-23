@@ -11,7 +11,8 @@ export default function ThemeToggle() {
   useEffect(() => {
     setMounted(true);
     const stored = localStorage.getItem(STORAGE_KEY);
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark =
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
     const dark = stored === "dark" || (stored !== "light" && prefersDark);
     document.documentElement.classList.toggle("dark", dark);
     setIsDark(dark);
@@ -33,7 +34,11 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="cursor-pointer rounded-xl p-2 text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-50"
+      className={
+        "cursor-pointer rounded-xl p-2 text-stone-600 transition-colors " +
+        "hover:bg-stone-100 hover:text-stone-900 dark:text-stone-400 " +
+        "dark:hover:bg-stone-800 dark:hover:text-stone-50"
+      }
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDark ? (
@@ -48,7 +53,12 @@ export default function ThemeToggle() {
           className="h-5 w-5"
         >
           <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+          <path
+            d={
+              "M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41" +
+              "M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+            }
+          />
         </svg>
       ) : (
         <svg

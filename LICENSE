@@ -19,3 +19,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+Third-Party Components
+
+This software may use third-party components with separate licenses:
+
+- Ollama (https://ollama.com) – MIT License
+- AI/LLM models (e.g. Llama 3) – When using such models, you must comply
+  with their respective licenses. See the project README for details.

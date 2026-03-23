@@ -4,8 +4,6 @@ import csv
 import tempfile
 from pathlib import Path
 
-import pytest
-
 from services.trends_scraper import _parse_trends_csv
 
 
