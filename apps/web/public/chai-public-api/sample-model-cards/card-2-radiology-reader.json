@@ -1,0 +1,87 @@
+{
+  "user": {
+    "full_name": "James Okonkwo",
+    "email": "j.okonkwo@radvision.io",
+    "role": "Clinical AI Lead"
+  },
+  "organization": {
+    "name": "RadVision",
+    "slug": "radvision"
+  },
+  "model_card": {
+    "slug": "chest-xray-pneumonia-detector-v2",
+    "model_name": "Chest X-Ray Pneumonia Detector v2",
+    "model_developer": "RadVision",
+    "developer_contact": "j.okonkwo@radvision.io",
+    "release_stage": "production",
+    "release_date": "2026-01-10",
+    "release_version": "2.0.0",
+    "global_availability": "yes",
+    "regulatory_approval": "FDA 510(k) cleared",
+    "summary": "Deep learning model for detecting pneumonia from chest X-rays. Assists radiologists by flagging suspicious regions and providing confidence scores.",
+    "keywords": ["pneumonia", "chest X-ray", "radiology", "object detection", "DICOM"],
+    "intended_use_and_workflow": "Radiologist decision support. Model highlights regions of interest; final diagnosis remains with the clinician.",
+    "primary_intended_users": "Radiologists, pulmonologists",
+    "how_to_use": "Upload DICOM or JPEG chest X-ray. Model returns bounding boxes and confidence scores. Integrates with PACS via FHIR.",
+    "targeted_patient_population": "Adults and pediatric patients presenting with respiratory symptoms",
+    "cautioned_out_of_scope_settings": "Not for lateral or oblique views. Not validated for portable or bedside X-rays.",
+    "known_risks_and_limitations": "Sensitivity lower on pediatric cases. Requires high-quality anterior-posterior or posterior-anterior views.",
+    "known_biases_or_ethical_considerations": "Training data skewed toward certain demographics. Active bias audits in place.",
+    "clinical_risk_level": "high",
+    "outcomes_and_outputs": "Bounding boxes, confidence scores, suggested differential diagnoses",
+    "model_type": "object_detection",
+    "foundation_models": "",
+    "input_data_source": "Chest X-ray images (DICOM, JPEG)",
+    "output_and_input_data_types": "Image input, structured JSON output with coordinates and scores",
+    "development_data_characterization": "Multi-site retrospective dataset, 200k+ images, 2019–2025",
+    "bias_mitigation_approaches": "Stratified sampling, subgroup analysis, continuous monitoring",
+    "ongoing_maintenance": "Monthly performance reviews, annual retraining",
+    "security": "HIPAA compliant. Images processed in secure cloud.",
+    "transparency": "Technical documentation and bias reports available.",
+    "funding_source": "NIH grant, venture funding",
+    "third_party_information": "",
+    "stakeholders_consulted": "Radiologists, FDA consultants, patient advisory board",
+    "evaluation_references": "",
+    "clinical_trial": "NCT12345678",
+    "peer_reviewed_publications": "DOI:10.5678/radvision.2026.002, DOI:10.5678/radvision.2025.015",
+    "reimbursement_status": "CPT code under review",
+    "patient_consent_or_disclosure": "De-identified data; consent waived per IRB",
+    "bibliography": "Okonkwo et al. (2026). Deep Learning for Pneumonia Detection. Radiology AI.",
+    "ehr_compatibility": ["Epic", "Cerner", "athenahealth"],
+    "regulatory_compliance": "CA AB 2013",
+    "key_metrics": {
+      "usefulness": {
+        "metric_goal": "Sensitivity ≥ 90%, Specificity ≥ 85%",
+        "results": [
+          { "label": "Sensitivity", "value": { "kind": "single", "value": 0.91, "unit": "%" } },
+          { "label": "Specificity", "value": { "kind": "single", "value": 0.87, "unit": "%" } },
+          { "label": "mAP", "value": { "kind": "single", "value": 0.78 } }
+        ],
+        "interpretation": "Meets clinical targets. mAP improved in v2.",
+        "test_type": "Prospective",
+        "testing_data_description": "Multi-site prospective cohort, 5k images",
+        "validation_process_and_justification": "External validation at 3 sites"
+      },
+      "fairness": {
+        "metric_goal": "Performance parity across demographic subgroups",
+        "results": [
+          { "label": "Subgroup AUC range", "value": { "kind": "single", "value": "0.84–0.88" } }
+        ],
+        "interpretation": "Within acceptable range.",
+        "test_type": "Stratified analysis",
+        "testing_data_description": "Stratified by age, sex, race/ethnicity",
+        "validation_process_and_justification": "Fairness audit per FDA guidance"
+      },
+      "safety": {
+        "metric_goal": "Zero critical failures in 10k-case safety study",
+        "results": [
+          { "label": "Critical failures", "value": { "kind": "single", "value": 0 } }
+        ],
+        "interpretation": "No critical failures observed.",
+        "test_type": "Safety audit",
+        "testing_data_description": "10k-case retrospective safety review",
+        "validation_process_and_justification": "Independent safety review board"
+      }
+    }
+  }
+}
