@@ -178,5 +178,5 @@ Call from a server-side route or backend to keep the secret key secure.
 
 ## Related
 
-- **[CHAI test scenarios](/chai-public-api/CHAI_TEST_SCENARIOS.md)** — every `/chai` automated test case (id, payload notes, how to test, expected result). Source: `apps/web/src/lib/chai/chai-test-scenarios.ts`.
+- **[CHAI test scenarios](/chai-public-api/CHAI_TEST_SCENARIOS.md)** — every `/chai-open-api` automated test case (id, payload notes, how to test, expected result). Source: `apps/web/src/lib/chai/chai-test-scenarios.ts`.
 - **[CHAI use cases & simulation](/chai-public-api/CHAI_USE_CASES_TEST_SIMULATION.md)** — all 23 cases with example JSON bodies, proxy vs CHAI status codes, and expected response shapes.
