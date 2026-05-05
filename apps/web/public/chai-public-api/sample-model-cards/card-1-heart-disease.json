@@ -1,0 +1,82 @@
+{
+  "user": {
+    "full_name": "Dr. Sarah Chen",
+    "email": "sarah.chen@medai-health.com",
+    "role": "ML Engineer"
+  },
+  "organization": {
+    "name": "MedAI Health",
+    "slug": "medai-health"
+  },
+  "model_card": {
+    "slug": "heart-disease-predictor-v1",
+    "model_name": "Heart Disease Predictor v1",
+    "model_developer": "MedAI Health",
+    "developer_contact": "sarah.chen@medai-health.com",
+    "release_stage": "beta",
+    "release_date": "2026-03-15",
+    "release_version": "1.0.0",
+    "global_availability": "yes",
+    "regulatory_approval": "",
+    "summary": "A risk prediction model for cardiovascular disease using EHR data. Outputs a 0–100 risk score to support clinical decision-making.",
+    "keywords": ["cardiovascular", "risk prediction", "EHR", "clinical decision support"],
+    "intended_use_and_workflow": "Used in clinical decision support to flag high-risk patients for follow-up. Integrates with Epic and Cerner EHRs.",
+    "primary_intended_users": "Clinicians, care coordinators",
+    "how_to_use": "Upload patient demographics and lab results via API or EHR integration. Review risk score and recommended actions in the dashboard.",
+    "targeted_patient_population": "Adults 18+ with at least one cardiovascular risk factor",
+    "cautioned_out_of_scope_settings": "Not for pediatric use. Not validated for emergency or acute care settings.",
+    "known_risks_and_limitations": "May underperform on rare conditions. Performance not validated on non-English-speaking populations.",
+    "known_biases_or_ethical_considerations": "Trained on US data; may have bias toward majority populations. Ongoing fairness monitoring.",
+    "clinical_risk_level": "medium",
+    "outcomes_and_outputs": "Risk score (0–100), recommended follow-up actions",
+    "model_type": "classification",
+    "foundation_models": "",
+    "input_data_source": "EHR data (demographics, labs, vitals)",
+    "output_and_input_data_types": "Structured clinical data, numeric risk score",
+    "development_data_characterization": "Retrospective dataset from 50 US health systems, 2018–2024",
+    "bias_mitigation_approaches": "Reweighting, stratified evaluation",
+    "ongoing_maintenance": "Quarterly model updates and monitoring",
+    "security": "Data encrypted at rest and in transit. SOC 2 Type II.",
+    "transparency": "Model card and evaluation reports publicly available.",
+    "funding_source": "Internal R&D",
+    "third_party_information": "",
+    "stakeholders_consulted": "Cardiologists, primary care physicians, patient advocates",
+    "evaluation_references": "",
+    "clinical_trial": "",
+    "peer_reviewed_publications": "DOI:10.1234/medai.2026.001",
+    "reimbursement_status": "",
+    "patient_consent_or_disclosure": "Obtained per institutional IRB",
+    "bibliography": "Chen et al. (2026). Cardiovascular Risk Prediction in Clinical Practice. Journal of Clinical AI.",
+    "ehr_compatibility": ["Epic", "Cerner"],
+    "regulatory_compliance": "",
+    "key_metrics": {
+      "usefulness": {
+        "metric_goal": "AUC-ROC ≥ 0.85",
+        "results": [
+          { "label": "AUC-ROC", "value": { "kind": "single", "value": 0.89 } },
+          { "label": "Sensitivity", "value": { "kind": "single", "value": 0.82, "unit": "%" } }
+        ],
+        "interpretation": "Meets target. Strong discriminative performance.",
+        "test_type": "Retrospective",
+        "testing_data_description": "Holdout set from 10 health systems",
+        "validation_process_and_justification": "5-fold cross-validation, external validation"
+      },
+      "fairness": {
+        "metric_goal": "Demographic parity within 5%",
+        "results": [],
+        "interpretation": "",
+        "test_type": "",
+        "testing_data_description": "",
+        "validation_process_and_justification": ""
+      },
+      "safety": {
+        "metric_goal": "No critical failures in safety audit",
+        "results": [],
+        "interpretation": "",
+        "test_type": "",
+        "testing_data_description": "",
+        "validation_process_and_justification": ""
+      }
+    }
+  }
+}

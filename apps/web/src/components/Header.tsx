@@ -20,6 +20,12 @@ export default function Header() {
             Trends
           </Link>
           <Link
+            href="/chai"
+            className="text-[15px] text-stone-600 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-50"
+          >
+            Open API
+          </Link>
+          <Link
             href="/docs"
             className="text-[15px] text-stone-600 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-50"
           >
